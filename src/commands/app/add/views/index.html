@@ -1,0 +1,545 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+    <style>
+        .navbar-nav li {
+    margin-top: 8px;
+    margin-bottom: 8px;
+}
+.tabs-container {
+    margin-top: 100px;
+}
+.parent-border, .child-border {
+    border: 1px solid #CCC;
+    border-radius: 4px;
+    padding: 15px;
+    margin-bottom: 15px;
+}
+.btn-circle.btn-lg {
+    width: 50px;
+    height: 50px;
+    padding: 10px 16px;
+    font-size: 18px;
+    line-height: 1.33;
+    border-radius: 25px;
+}
+    </style>
+</head>
+<body>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+<script src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.9.0/moment.min.js"></script>
+<link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.17.37/css/bootstrap-datetimepicker.min.css" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.17.37/js/bootstrap-datetimepicker.min.js"> </script>
+
+
+<nav class="navbar navbar-inverse navbar-fixed-top">
+    <div class="container">
+        <div class="navbar-header pull-right">
+            <ul class="nav navbar-nav">
+                <!-- <li>
+                    <button class="btn btn-md btn-success">Login</button>
+                </li> -->
+            </ul>
+        </div>
+    </div>
+</nav>
+<div class="container">
+    <div class="row tabs-container">
+
+
+        <div class="col-sm-offset-2 col-sm-8">
+
+            <div class="panel with-nav-tabs panel-default">
+
+                <div class="panel-heading">
+                    <ul class="nav nav-tabs">
+                        <li class="active"><a href="#tab1default" data-toggle="tab">Create Workflow</a></li>
+                        <!-- <li><a href="#tab2default" data-toggle="tab">Events</a></li> -->
+                    </ul>
+                </div>
+                <div class="panel-body">
+                    <div class="tab-content">
+                        <div class="tab-pane fade in active" id="tab1default">
+                            <form class="form-horizontal" id="maingrp" action="/preview" method="post">
+                                <div class="form-group" >
+                                    <label class="control-label col-sm-2" for="name">Name:</label>
+                                    <div class="col-sm-10">
+                                        <input type="text" class="form-control" id="name" name="name"
+                                               placeholder="Enter workflow name">
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label class="control-label col-sm-2" for="type">Trigger:</label>
+                                    <div class="col-sm-10">
+                                        <select class="form-control" id="trigger" name="trigger1">
+                                          <option hidden disabled selected value> -- select an option -- </option>
+                                          <option value="1">Events</option>
+                                          <option value="2">HTTP Trigger</option>
+                                          <option value="3">Scheduled Run</option>
+                                        </select>
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label class="control-label col-sm-2" for="type">Type:</label>
+                                    <div class="col-sm-10">
+                                        <select class="form-control" id="wstype" name="wstype">
+                                          <option hidden disabled selected value> -- select an option -- </option>
+                                          <option value="1">Sequence</option>
+                                          <option value="2">Composition</option>
+                                        </select>
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label class="control-label col-sm-2" for="type">Date Time:</label>
+                                    <div class="col-sm-10">
+                                        <input class="form-control" type="text" id="time"/>
+                                    </div>
+                                </div>
+
+
+
+
+   </div>
+</div>
+
+                                <!-- trial -->
+
+                                <!-- end trial -->
+                            </form>
+
+                            <form class="form-horizontal" id="submitform">
+                                <div class="form-button" >
+                                    <label class="control-label col-sm-2" for="name">&nbsp;&nbsp;&nbsp;&nbsp;</label>
+                                    <div class="col-sm-10">
+                                        <input type="button" class="form-control" id="submitbutton" value="Preview Workflow">
+                                    </div>
+                                </div>
+                            </form>
+
+                            <div class="form-group">
+                                <label class="control-label col-sm-2" for="name">&nbsp;&nbsp;&nbsp;&nbsp;</label>
+                                <label class="control-label col-sm-2" for="name">&nbsp;&nbsp;&nbsp;&nbsp;</label>
+                                <label class="control-label col-sm-2" for="name">&nbsp;&nbsp;&nbsp;&nbsp;</label>
+                            </div>
+
+                        </div>
+
+                    </div>
+                    <!-- <form class="form-horizontal">
+                      <div class="container">
+                          <div class="navbar-footer pull-right">
+                              <ul class="nav navbar-nav">
+                                  <li>
+                                      <button class="btn btn-md btn-success">Create Workflow</button>
+                                  </li>
+                              </ul>
+                          </div>
+                      </div>
+                    </form> -->
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- /.container -->
+    <div class="navbar navbar-inverse navbar-fixed-bottom">
+        <div class="container">
+            <div class="navbar-footer pull-right">
+                <ul class="nav navbar-nav">
+                    <!-- <li>
+                        <button class="btn btn-md btn-success">Create Workflow</button>
+                    </li> -->
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+<script type="text/javascript">
+let actionCount = 1
+
+function getSubmitButtonHTML() {
+
+  let str = '<div class="form-group" >'
+  str = str + '<label class="control-label col-sm-2" for="name">Name:</label>'
+  str = str + '<div class="col-sm-10">'
+
+  str = str + '<div class="form-group"><label class="control-label col-sm-2" for="type">Trigger:</label><div class="col-sm-10">'
+  str = str + '<input type="text" class="form-control" id="name" name="name"'
+  str = str + ' placeholder="Enter workflow name">'
+  str = str + '</div>'
+  str = str + '</div>'
+
+  return str
+}
+function getBaseUIHTMl() {
+  let str = '<div class="form-group" >'
+  str = str + '<label class="control-label col-sm-2" for="name">Name:</label>'
+  str = str + '<div class="col-sm-10"><input type="text" class="form-control" id="name" name="name" placeholder="Enter workflow name"></div></div>'
+
+  str = str + '<div class="form-group"><label class="control-label col-sm-2" for="type">Trigger:</label><div class="col-sm-10">'
+  str = str + '<select class="form-control" id="trigger" name="trigger">'
+  str = str + '<option value="1">Events</option>'
+  str = str + '<option value="2">HTTP Trigger</option>'
+  str = str + '<option value="3">Scheduled Run</option>'
+  str = str + '</select></div></div>'
+
+  return str
+}
+
+function getActionListHTML() {
+
+  let actionName = 'action' + actionCount
+  let str = '<div class="form-group" >'
+  str = str + '<label class="control-label col-sm-2" for="type">Select Action:</label>'
+  str = str + '<div class="col-sm-10">'
+  str = str + '<select class="form-control" id="' + actionName + '" name="' + actionName + '">'
+  str = str + '<option hidden disabled selected value> -- select an option -- </option>'
+  str = str + '<option value="1">Generate JWT Token</option>'
+  str = str + '<option value="2">Get Image from Creative Cloud</option>'
+  str = str + '<option value="3">Upload Image to Creative Cloud</option>'
+  str = str + '<option value="4">Image Cutout</option>'
+  str = str + '<option value="4">Image Autotone</option>'
+  str = str + '<option value="6">Get Adobe Analytics Report</option>'
+  str = str + '<option value="7">Get Adobe Target Offers</option>'
+  str = str + '<option value="8">Send Slack Message</option>'
+  str = str + '<option value="9">Send Email</option>'
+  str = str + '</select></div></div>'
+
+  const aName = '#action' + actionCount
+  $(document).on('change',aName, handleActionChange)
+
+  actionCount = actionCount + 1
+  return str
+
+}
+
+function getSimpleActionListHTML() {
+
+  let actionName = 'simpleaction'
+  // let str = '<div class="form-group" >'
+  // str = str + '<label class="control-label col-sm-2" for="type">Select Action:</label>'
+  let str = '<div class="col-sm-10">'
+  str = str + '<select class="form-control" id="' + actionName + '" name="' + actionName + '">'
+  str = str + '<option hidden disabled selected value> -- select an action -- </option>'
+  str = str + '<option value="10">Authenticate</option>'
+  str = str + '<option value="2">Get Image from Creative Cloud</option>'
+  str = str + '<option value="3">Upload Image to Creative Cloud</option>'
+  str = str + '<option value="4">Image Cutout</option>'
+  str = str + '<option value="4">Image Autotone</option>'
+  str = str + '<option value="6">Get Adobe Analytics Report</option>'
+  str = str + '<option value="7">Get Adobe Target Offers</option>'
+  str = str + '<option value="8">Send Slack Message</option>'
+  str = str + '<option value="9">Send Email</option>'
+  str = str + '</select></div>'
+
+  return str
+
+}
+
+function getTimeSelectHTMl() {
+
+
+  // let str = '<div class="form-group" >'
+  // str = str + '<label class="control-label col-sm-2" for="type">Select Action:</label>'
+  let str = '<div class="col-sm-10">'
+  str = str + '<select class="form-control" id="' + actionName + '" name="' + actionName + '">'
+  str = str + '<option hidden disabled selected value> -- select an action -- </option>'
+  str = str + '<option value="10">Authenticate</option>'
+  str = str + '<option value="2">Get Image from Creative Cloud</option>'
+  str = str + '<option value="3">Upload Image to Creative Cloud</option>'
+  str = str + '<option value="4">Image Cutout</option>'
+  str = str + '<option value="4">Image Autotone</option>'
+  str = str + '<option value="6">Get Adobe Analytics Report</option>'
+  str = str + '<option value="7">Get Adobe Target Offers</option>'
+  str = str + '<option value="8">Send Slack Message</option>'
+  str = str + '<option value="9">Send Email</option>'
+  str = str + '</select></div>'
+
+  return str
+
+}
+
+function getCompositionActionListHTML() {
+
+  let actionName = 'composition-action' + actionCount
+  let str = '<div class="form-group" >'
+  str = str + '<label class="control-label col-sm-2" for="type">Select Action:</label>'
+  str = str + '<div class="col-sm-10">'
+  str = str + '<select class="form-control" id="' + actionName + '" name="' + actionName + '">'
+  str = str + '<option disabled selected value> -- Select Action -- </option>'
+  str = str + '<option value="1">Generate JWT Token</option>'
+  str = str + '<option value="2">Get Image from Creative Cloud</option>'
+  str = str + '<option value="3">Upload Image to Creative Cloud</option>'
+  str = str + '<option value="4">Image Cutout</option>'
+  str = str + '<option value="4">Image Autotone</option>'
+  str = str + '<option value="6">Get Adobe Analytics Report</option>'
+  str = str + '<option value="7">Get Adobe Target Offers</option>'
+  str = str + '<option value="8">Send Slack Message</option>'
+  str = str + '<option value="9">Send Email</option>'
+  str = str + '<option disabled value> -- Select Combinators -- </option>'
+  str = str + '<option value="10">If</option>'
+  str = str + '<option value="11">Try</option>'
+  str = str + '<option value="12">Parallel</option>'
+  str = str + '</select></div></div>'
+
+  const aName = '#composition-action' + actionCount
+  $(document).on('change',aName, handleCompositionActionChange)
+
+  actionCount = actionCount + 1
+  return str
+
+}
+
+function getIMSTokenHTML() {
+
+  let str = '<div class="parent-border col-sm-offset-2 col-sm-10">'
+
+  str = str + '<div class="form-group" id="aioconfigdiv" >'
+  str = str + '<label class="control-label col-sm-2" for="flexCheckDefault">'
+  str = str + 'Use aio config &nbsp;&nbsp;&nbsp;'
+  str = str + '</label>'
+  str = str + '<input class="form-check" type="checkbox" value="" id="useaioconfig">'
+  str = str + '</div>'
+
+  str = str + '<div class="form-group" >'
+  str = str + '<label class="control-label col-sm-2" for="erhs">API Key:</label>'
+  str = str + '<div class="col-sm-10">'
+  str = str + '<input type="text" class="form-control" id="apikey" name="apikey"'
+  str = str + ' placeholder="Enter API Key">'
+  str = str + '</div> </div>'
+
+  str = str + '<div class="form-group" >'
+  str = str + '<label class="control-label col-sm-2" for="erhs">Client Secret:</label>'
+  str = str + '<div class="col-sm-10">'
+  str = str + '<input type="text" class="form-control" id="secret" name="secret"'
+  str = str + ' placeholder="Enter client secret">'
+  str = str + '</div></div>'
+
+  str = str + '<div class="form-group" >'
+  str = str + '<label class="control-label col-sm-2" for="erhs">IMS Org:</label>'
+  str = str + '<div class="col-sm-10">'
+  str = str + '<input type="text" class="form-control" id="imsorg" name="imsorg"'
+  str = str + ' placeholder="Enter IMS Org ID">'
+  str = str + '</div></div>'
+
+  str = str + '<div class="form-group" >'
+  str = str + '<label class="control-label col-sm-2" for="erhs">Key:</label>'
+  str = str + '<div class="col-sm-10">'
+  str = str + '<input type="text" class="form-control" id="privatekey" name="privatekey"'
+  str = str + ' placeholder="Enter Private Key">'
+  str = str + '</div></div>'
+
+  str = str + '<div class="form-group" >'
+  str = str + '<label class="control-label col-sm-2" for="erhs">Tech acc:</label>'
+  str = str + '<div class="col-sm-10">'
+  str = str + '<input type="text" class="form-control" id="techacc" name="techacc"'
+  str = str + ' placeholder="Enter Tech account ID">'
+  str = str + '</div></div>'
+
+  // str = str + '</div>'
+
+  str = str + '</div>'
+  return str
+
+}
+
+function getIfHTML() {
+
+  let str = '<div class="parent-border col-sm-offset-2 col-sm-10">'
+
+  str = str + '<div class="form-group" >'
+  str = str + '<label class="control-label col-sm-2" for="erhs">Condition Action:</label>'
+  str = str + '<div class="col-sm-10">'
+  str = str + getSimpleActionListHTML()
+  str = str + '</div> </div>'
+
+  str = str + '<div class="form-group" >'
+  str = str + '<label class="control-label col-sm-2" for="erhs">Success:</label>'
+  str = str + '<div class="col-sm-10">'
+  str = str + getSimpleActionListHTML()
+  str = str + '</div> </div>'
+
+  str = str + '<div class="form-group" >'
+  str = str + '<label class="control-label col-sm-2" for="erhs">Failure:</label>'
+  str = str + '<div class="col-sm-10">'
+  str = str + getSimpleActionListHTML()
+  str = str + '</div></div>'
+
+  str = str + '</div>'
+  return str
+
+}
+
+function getTryHTML() {
+
+  let str = '<div class="parent-border col-sm-offset-2 col-sm-10">'
+
+  str = str + '<div class="form-group" >'
+  str = str + '<label class="control-label col-sm-2" for="erhs">Main Action:</label>'
+  str = str + '<div class="col-sm-10">'
+  str = str + getSimpleActionListHTML()
+  str = str + '</div> </div>'
+
+  str = str + '<div class="form-group" >'
+  str = str + '<label class="control-label col-sm-2" for="erhs">Exception Handler:</label>'
+  str = str + '<div class="col-sm-10">'
+  str = str + getSimpleActionListHTML()
+  str = str + '</div> </div>'
+
+  str = str + '</div>'
+  return str
+
+}
+
+function handleAioConfigCheck(e) {
+  console.log(e)
+  let flag = false
+  if(e.currentTarget.checked) {
+    console.log('disable text')
+    flag = true
+  }
+  $('#apikey').prop('disabled', flag)
+  $('#secret').prop('disabled', flag)
+  $('#imsorg').prop('disabled', flag)
+  $('#privatekey').prop('disabled', flag)
+  $('#techacc').prop('disabled', flag)
+
+}
+
+function handleActionSelection(selection) {
+  console.log('selection ' + selection)
+  if(selection === 2) {
+    $('#maingrp').append(getIMSTokenHTML())
+    $(document).on('change', '[type=checkbox]', handleAioConfigCheck)
+  }
+  // else if(selection === 4) {
+  //   $('#maingrp').append(getAnalyticsHTML())
+  // } else if(selection === 8) {
+  //   $('#maingrp').append(getPostSlackHTML())
+  // } else if(selection === 10) {
+  //   $('#maingrp').append(getCustomeCodeHTML())
+  // }
+}
+
+function handleActionChange(e) {
+  console.log(e)
+
+  var selection = e.currentTarget.selectedIndex + 1
+  handleActionSelection(selection)
+
+  $('#maingrp').append(getActionListHTML())
+}
+
+function handleCompositionActionSelection(selection) {
+  console.log('selection ' + selection)
+  if(selection === 12) {
+    $('#maingrp').append(getIfHTML())
+  } else if(selection === 13) {
+    $('#maingrp').append(getTryHTML())
+  // } else if(selection === 10) {
+  //   $('#maingrp').append(getCustomeCodeHTML())
+  }
+}
+
+function handleCompositionActionChange(e) {
+  console.log(e)
+
+  var selection = e.currentTarget.selectedIndex + 1
+  handleCompositionActionSelection(selection)
+
+  $('#maingrp').append(getCompositionActionListHTML())
+}
+
+function handleWSTypeEventChange(e) {
+  console.log(e)
+  var selection = $('#wstype').find(":selected").val()
+  console.log('ws type selection ' + selection)
+  if(selection == 1) {
+    $('#maingrp').append(getActionListHTML())
+  }
+  else if(selection == 2) {
+    $('#maingrp').append(getCompositionActionListHTML())
+  }
+}
+
+function handleProviderChange(e) {
+  console.log(e)
+  var selection = $('#provider').find(":selected").val()
+  if(selection == 2) {
+    $('#maingrp').append(getCustomEventsHTMl())
+    $(document).on('change','#customeevent', handleCustomEventChange)
+  }
+}
+
+function handleTriggerChange(e) {
+  console.log(e)
+  var selection = $('#trigger').find(":selected").val()
+  if(selection == 3) {
+    $('#maingrp').append(getTimeSelectHTMl())
+  }
+}
+
+$(document).on('change','#wstype', handleWSTypeEventChange)
+
+$('#deleteRow').closest('.form-group').hide();
+$('#addRow').on('click', function (e) {
+    var len = $('.child-border').length;
+    $('.parent-border').clone().find(':input').each(function (idx, ele) {
+        ele.name = ele.name + len;
+        ele.id = ele.id + len;
+        ele.value = '';
+    }).end().find('.form-group').toggle(true).end()
+            .toggleClass('parent-border child-border').hide()
+            .appendTo('#container').slideDown('slow');
+});
+
+$('button.btn:contains("Save")').on('click', function (e) {
+    var jsonData = $('form.form-horizontal')
+            .find(':input:not(button)').get()
+            .reduce(function (acc, ele) {
+                acc[ele.name || ele.id] = ele.value;
+                return acc;
+            }, {});
+    console.log(jsonData);
+});
+
+$('#container').on('click', '[id^=deleteRow]', function(e) {
+    var jsonData = $(this).closest('.child-border, .parent-border')
+            .find(':input:not(button)').get()
+            .reduce(function (acc, ele) {
+                acc[ele.name || ele.id] = ele.value;
+                return acc;
+            }, {});
+    $(this).closest('.child-border, .parent-border').remove();
+    console.log(jsonData);
+});
+
+$('#submitbutton').on('click', function (e) {
+  console.log('form submitted')
+  $('#maingrp').submit()
+})
+
+$('#time').datetimepicker()
+// var obj = $('#datetimepicker1')
+ // obj.datetimepicker();
+
+
+// $(document).ready(function(){
+//
+//     // Submit handler, to prove everything works fine
+//     $('#umfrageForm').submit(function(){
+//         alert('hi');
+//         return false;
+//     });
+//
+//     // Fire the submit event
+//     $('#umfrageForm').submit(); // alerts 'hi'
+// });
+</script>
+</body>
+</html>

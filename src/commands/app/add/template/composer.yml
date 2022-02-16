@@ -1,0 +1,104 @@
+application:
+  actions: actions
+  web: web-src
+  runtimeManifest:
+    packages:
+      demo_app:
+        license: Apache-2.0
+        actions:
+          Authenticate:
+            function: actions/auth/index.js
+            web: 'no'
+            runtime: 'nodejs:14'
+            inputs:
+              LOG_LEVEL: debug
+            annotations:
+              require-adobe-auth: true
+              final: true
+          GetImageFromCreativeCloud:
+            function: actions/cc/get-image.js
+            web: 'no'
+            runtime: 'nodejs:14'
+            inputs:
+              LOG_LEVEL: debug
+            annotations:
+              require-adobe-auth: false
+              final: true
+          UploadImageToCreativeCloud:
+            function: actions/cc/upload-image.js
+            web: 'no'
+            runtime: 'nodejs:14'
+            inputs:
+              LOG_LEVEL: debug
+            annotations:
+              require-adobe-auth: false
+              final: true
+          ImageCutOut:
+            function: actions/cc/cutout.js
+            web: 'no'
+            runtime: 'nodejs:14'
+            inputs:
+              LOG_LEVEL: debug
+            annotations:
+              require-adobe-auth: false
+              final: true
+          ImageAutotone:
+            function: actions/cc/autotone.js
+            web: 'no'
+            runtime: 'nodejs:14'
+            inputs:
+              LOG_LEVEL: debug
+            annotations:
+              require-adobe-auth: false
+              final: true
+          GetAdobeAnalyticsReport:
+            function: actions/analytics/report.js
+            web: 'no'
+            runtime: 'nodejs:14'
+            inputs:
+              LOG_LEVEL: debug
+            annotations:
+              require-adobe-auth: false
+              final: true
+          GetAdobeTargetOffers:
+            function: actions/target/get-offers.js
+            web: 'no'
+            runtime: 'nodejs:14'
+            inputs:
+              LOG_LEVEL: debug
+            annotations:
+              require-adobe-auth: false
+              final: true
+          SendSlackMessage:
+            function: actions/slack/send-message.js
+            web: 'no'
+            runtime: 'nodejs:14'
+            inputs:
+              LOG_LEVEL: debug
+            annotations:
+              require-adobe-auth: false
+              final: true
+          SendEmail:
+            function: actions/email/send.js
+            web: 'no'
+            runtime: 'nodejs:14'
+            inputs:
+              LOG_LEVEL: debug
+            annotations:
+              require-adobe-auth: false
+              final: true
+        composition:
+          CompositionDemo:
+            file: compositions/compositiondemo.json
+            web: true
+            runtime: 'nodejs:14'
+            inputs:
+              LOG_LEVEL: debug
+            annotations:
+              require-adobe-auth: false
+              final: true
+        Trigger:
+          CompositionDemoTrigger:
+            action: ComposerDemo
+            alarm: fireonce
+            date: "2022-02-10T12:00:00.000Z"
