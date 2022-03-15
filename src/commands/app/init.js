@@ -184,7 +184,7 @@ class InitCommand extends AddCommand {
   async selectConsoleOrg (consoleCLI) {
     const organizations = await consoleCLI.getOrganizations()
     const selectedOrg = await consoleCLI.promptForSelectOrganization(organizations)
-    await this.ensureDevTermAccepted(consoleCLI, selectedOrg.id)
+    // await this.ensureDevTermAccepted(consoleCLI, selectedOrg.id)
     return selectedOrg
   }
 
