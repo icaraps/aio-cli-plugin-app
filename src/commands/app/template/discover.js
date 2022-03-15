@@ -10,6 +10,9 @@
  * governing permissions and limitations under the License.
  */
 
+const fs = require('fs');
+const yeoman = require('yeoman-environment');
+const path = require('path');
 const { flags } = require('@oclif/command')
 const BaseCommand = require('../../../BaseCommand')
 const ora = require('ora')
@@ -22,6 +25,10 @@ const aioLogger = require('@adobe/aio-lib-core-logging')('@adobe/aio-cli-plugin-
 
 class DiscoverCommand extends BaseCommand {
   async __install (templates) {
+    if (!fs.existsSync(path.join(process.cwd(), 'package.json'))) {
+      fs.writeFileSync('package.json', `{}`);
+    }
+    
     const packageJson = await readPackageJson()
     const installedTemplates = packageJson[TEMPLATE_PACKAGE_JSON_KEY] || []
     aioLogger.debug(`installedTemplates: ${JSON.stringify(installedTemplates, null, 2)}`)
@@ -45,18 +52,28 @@ class DiscoverCommand extends BaseCommand {
     }
 
     const response = await inquirer.prompt([{
-      name: 'templates',
-      message: 'Select templates to install',
-      type: 'checkbox',
+      name: 'template',
+      message: 'Select a template to install',
+      type: 'list',
       choices: inqChoices
     }])
 
-    // install the templates in sequence
-    for (const template of response.templates) {
-      await this.config.runCommand('app:template:install', [template])
+    // install and run the template
+    const {template} = response;
+    const {url} = templates.find(({name}) => template === name);
+    try {
+      await this.config.runCommand('app:template:install', [url]);
     }
+    catch (e) {}
 
-    return response.templates
+    const env = yeoman.createEnv();
+
+    const lookup = await env.lookup();
+    const generator = lookup.find(({namespace}) => namespace.startsWith(template));
+    
+    await env.run(generator.namespace);
+
+    return template;
   }
 
   async __list (plugins) {
