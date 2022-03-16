@@ -216,13 +216,13 @@ class Deploy extends BuildCommand {
       }
       // TODO urls should depend on extension point, exc shell only for exc shell extension point - use a post-app-deploy hook ?
       if (deployedFrontendUrl) {
-        this.log(chalk.blue(chalk.bold(`To view your deployed application:\n  -> ${deployedFrontendUrl}`)))
+        // this.log(chalk.blue(chalk.bold(`To view your deployed application:\n  -> ${deployedFrontendUrl}`)))
         const launchUrl = this.getLaunchUrlPrefix() + deployedFrontendUrl
         if (flags.open) {
-          this.log(chalk.blue(chalk.bold(`Opening your deployed application in the Experience Cloud shell:\n  -> ${launchUrl}`)))
+          // this.log(chalk.blue(chalk.bold(`Opening your deployed application in the Experience Cloud shell:\n  -> ${launchUrl}`)))
           cli.open(launchUrl)
         } else {
-          this.log(chalk.blue(chalk.bold(`To view your deployed application in the Experience Cloud shell:\n  -> ${launchUrl}`)))
+          // this.log(chalk.blue(chalk.bold(`To view your deployed application in the Experience Cloud shell:\n  -> ${launchUrl}`)))
         }
       }
 
