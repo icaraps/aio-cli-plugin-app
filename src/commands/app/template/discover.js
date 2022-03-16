@@ -20,24 +20,12 @@ const fetch = require('node-fetch')
 const { cli } = require('cli-ux')
 const inquirer = require('inquirer')
 const { sortValues } = require('../../../lib/app-helper')
-const { TEMPLATE_NPM_KEYWORD, TEMPLATE_PACKAGE_JSON_KEY, readPackageJson, npmTextSearch } = require('../../../lib/npm-helper')
+const { TEMPLATE_NPM_KEYWORD, npmTextSearch } = require('../../../lib/npm-helper')
 const aioLogger = require('@adobe/aio-lib-core-logging')('@adobe/aio-cli-plugin-app:template:discover', { provider: 'debug' })
 
 class DiscoverCommand extends BaseCommand {
   async __install (templates) {
-    if (!fs.existsSync(path.join(process.cwd(), 'package.json'))) {
-      fs.writeFileSync('package.json', `{}`);
-    }
-    
-    const packageJson = await readPackageJson()
-    const installedTemplates = packageJson[TEMPLATE_PACKAGE_JSON_KEY] || []
-    aioLogger.debug(`installedTemplates: ${JSON.stringify(installedTemplates, null, 2)}`)
-
     const inqChoices = templates
-      .filter(elem => { // remove any installed plugins from the list
-        aioLogger.debug(`elem (filter): ${elem}`)
-        return !installedTemplates.includes(elem.name)
-      })
       .map(elem => { // map to expected inquirer format
         aioLogger.debug(`elem (map): ${elem}`)
         return {

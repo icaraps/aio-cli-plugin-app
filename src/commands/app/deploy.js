@@ -147,7 +147,7 @@ class Deploy extends BuildCommand {
           if (filterActions) {
             filterEntities = { actions: filterActions }
           }
-          const message = `Deploying actions for '${name}'`
+          const message = `Deploying actions`
           spinner.start(message)
           try {
             const script = await runScript(config.hooks['deploy-actions'])
@@ -175,7 +175,7 @@ class Deploy extends BuildCommand {
 
       if (flags['web-assets']) {
         if (config.app.hasFrontend) {
-          const message = `Deploying web assets for '${name}'`
+          const message = `Deploying web assets`
           spinner.start(message)
           try {
             const script = await runScript(config.hooks['deploy-static'])
