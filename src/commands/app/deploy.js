@@ -100,7 +100,7 @@ class Deploy extends BuildCommand {
         const payload = await this.publishExtensionPoints(libConsoleCLI, deployConfigs, aioConfig, flags['force-publish'])
         this.log(chalk.blue(chalk.bold(`New Extension Point(s) in Workspace '${aioConfig.project.workspace.name}': '${Object.keys(payload.endpoints)}'`)))
       } else {
-        this.log('skipping publish phase...')
+        // this.log('skipping publish phase...')
       }
     } catch (error) {
       spinner.stop()
